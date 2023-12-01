@@ -1,0 +1,11 @@
+{
+  "semi": false,
+  "trailingComma": "none",
+  "singleQuote": true,
+  "printWidth": 80,
+  "tsxSingleQuote": true,
+  "jsxSingleQuote": true,
+  "prettier": {
+    "singleQuote": true
+  }
+}
