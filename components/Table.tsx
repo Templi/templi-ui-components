@@ -1,53 +1,109 @@
-import * as React from "react";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import * as React from 'react'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Paper from '@mui/material/Paper'
+import { Checkbox } from '@mui/material'
+import { StyledCheckbox } from './StyledCheckbox'
 
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "firstName", headerName: "First name", width: 130 },
-  { field: "lastName", headerName: "Last name", width: 130 },
-  {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    width: 90,
-  },
-  {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    sortable: false,
-    width: 160,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-  },
-];
+function createData(
+  checked: boolean,
+  orderDate: string,
+  orderNumber: string,
+  itemName: string,
+  supplier: string,
+  status: string,
+  shipDate: string,
+  total: number,
+  reorder: boolean
+) {
+  return {
+    checked,
+    orderDate,
+    orderNumber,
+    itemName,
+    supplier,
+    status,
+    shipDate,
+    total,
+    reorder
+  }
+}
 
 const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
+  createData(
+    true,
+    '10/24/2023',
+    '000000567',
+    '12oz Cold Cups',
+    'Flamingo Paper',
+    'Processing',
+    '11/14/2023',
+    104.59,
+    true
+  ),
+  createData(
+    true,
+    '01/01/2022',
+    '000000603',
+    '12oz Cold Cups',
+    'Flamingo Paper',
+    'Processing',
+    '01/15/2022',
+    73.01,
+    false
+  )
+]
 
-export default function DataTable() {
+const headers = [
+  'Actions',
+  'Order Date',
+  'Order#',
+  'Item Name',
+  'Supplier',
+  'Status',
+  'Ship Date',
+  'Total',
+  'Reorder'
+]
+
+export default function BasicTable() {
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-      />
-    </div>
-  );
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+        <TableHead className='font-bold bg-templi-lightgray'>
+          <TableRow className='font-bold'>
+            {headers.map((header) => (
+              <TableCell className='font-bold'>{header}</TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow
+              key={row.itemName}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component='th' scope='row'>
+                <StyledCheckbox checked={row.checked}></StyledCheckbox>
+              </TableCell>
+              <TableCell>{row.orderDate}</TableCell>
+              <TableCell>{row.orderNumber}</TableCell>
+              <TableCell>{row.itemName}</TableCell>
+              <TableCell>{row.supplier}</TableCell>
+              <TableCell component='th' scope='row'>
+                {row.status}
+              </TableCell>
+              <TableCell>{row.shipDate}</TableCell>
+              <TableCell>{row.total}</TableCell>
+              <TableCell>{row.reorder}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  )
 }
