@@ -7,9 +7,14 @@ import { TextInput } from '@/components/TextInput'
 import SlideInDrawer from '@/components/SlideInDrawer'
 import { useState } from 'react'
 import TextLabel from '@/components/TextLabel'
+import TextTag from '@/components/TextTag'
+import AddNewProductPage from '@/components/AddNewProductPage'
+import { Dropdown } from '@/components/Dropdown'
+import FileUpload from '@/components/FileUpload'
 
 export default function Home() {
   const [showSlideInDrawer, setShowSlideInDrawer] = useState(false)
+  const [slideInDrawerSize, setSlideInDrawerSize] = useState('')
 
   return (
     <main
@@ -66,15 +71,47 @@ export default function Home() {
       </div>
       <div className='flex flex-col items-start justify-center gap-3'>
         <span className='font-bold'>III. Text Label</span>
-        <TextLabel text='Purple' color='#967BB4'></TextLabel>
+        <div className='flex gap-3'>
+          {' '}
+          <TextLabel text='Processing' color='purple'></TextLabel>
+          <TextLabel text='Proofing' color='pink'></TextLabel>
+          <TextLabel text='In Production' color='blue'></TextLabel>
+          <TextLabel text='Shipped' color='green'></TextLabel>
+          <TextLabel text='Replenish' color='gold'></TextLabel>
+        </div>
       </div>
       <div className='flex flex-col items-start justify-center gap-3'>
-        <span className='font-bold'>IV. Slide-in Drawer</span>
+        <span className='font-bold'>IV. Text Tags</span>
+        <div className='flex gap-3'>
+          {' '}
+          <TextTag text='Rush Order' textColor='black' bgColor='#C6F1DC' />
+          <TextTag text='Shipping TBD' textColor='black' bgColor='#E7796D' />
+          <TextTag
+            text='Artwork Update or Approval'
+            textColor='black'
+            bgColor='#F1A76E'
+          />
+          <TextTag text='ON HOLD' textColor='white' bgColor='#B94335' />
+          <TextTag text='Dynamic Test' textColor='gold' bgColor='purple' />
+        </div>
+      </div>
+      <div className='flex flex-col items-start justify-center gap-3'>
+        <span className='font-bold'>V. Slide-in Drawer</span>
         <StyledButton
           label='Open Slide-in Drawer'
           color='purple'
           onClick={() => setShowSlideInDrawer(true)}
         />
+        <Dropdown
+          label='Size'
+          options={[
+            { value: 'sm', label: 'Small' },
+            { value: 'md', label: 'Medium' },
+            { value: 'lg', label: 'Large' }
+          ]}
+          setSelected={setSlideInDrawerSize}
+          selected={slideInDrawerSize}
+        ></Dropdown>
         <SlideInDrawer
           anchor='right'
           content={
@@ -90,12 +127,27 @@ export default function Home() {
           headerIcon='shopping_bag'
           headerTitle='Sample Cart'
           headerSubText='(5)'
+          size={slideInDrawerSize}
         />
       </div>
       <div className='flex flex-col items-start justify-center gap-3'>
-        <span className='font-bold'>II. Table</span>
+        <span className='font-bold'>VI. File Upload</span>
+        <FileUpload
+          apiCall={() => {
+            alert('File uploaded')
+            return Promise.resolve()
+          }}
+          files={[]}
+          setUploadedFile={() => {
+            return false
+          }}
+        />
+      </div>
+      <div className='flex flex-col items-start justify-center gap-3'>
+        <span className='font-bold'>VII. Table</span>
         <Table></Table>
       </div>
+      <AddNewProductPage />
     </main>
   )
 }

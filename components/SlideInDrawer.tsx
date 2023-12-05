@@ -10,6 +10,7 @@ export type SlideInDrawerProps = {
   headerIcon?: string
   headerTitle?: string
   headerSubText?: string
+  size?: 'sm' | 'md' | 'lg' | string | undefined
 }
 
 export default function SlideInDrawer(props: SlideInDrawerProps) {
@@ -21,7 +22,8 @@ export default function SlideInDrawer(props: SlideInDrawerProps) {
     open,
     headerIcon,
     headerTitle,
-    headerSubText
+    headerSubText,
+    size
   } = props
   return (
     <SwipeableDrawer
@@ -30,7 +32,9 @@ export default function SlideInDrawer(props: SlideInDrawerProps) {
       onOpen={onOpen}
       open={open}
       classes={{
-        paper: 'rounded-l-[10px] max-w-[520px] min-w-[350px]'
+        paper: `rounded-l-[10px] max-w-[520px] min-w-[350px] ${
+          size === 'md' ? 'max-w-[60vw] min-w-[50vw]' : ''
+        } ${size === 'lg' ? 'max-w-[90vw] min-w-[80vw]' : ''}`
       }}
     >
       <SlideinModalHeader
