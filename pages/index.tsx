@@ -11,10 +11,12 @@ import TextTag from '@/components/TextTag'
 import AddNewProductPage from '@/components/AddNewProductPage'
 import { Dropdown } from '@/components/Dropdown'
 import FileUpload from '@/components/FileUpload'
+import StyledModal from '@/components/StyledModal'
 
 export default function Home() {
   const [showSlideInDrawer, setShowSlideInDrawer] = useState(false)
   const [slideInDrawerSize, setSlideInDrawerSize] = useState('')
+  const [showModal, setShowModal] = useState(false)
 
   return (
     <main
@@ -131,7 +133,20 @@ export default function Home() {
         />
       </div>
       <div className='flex flex-col items-start justify-center gap-3'>
-        <span className='font-bold'>VI. File Upload</span>
+        <span className='font-bold'>VI. Modal</span>
+        <StyledButton
+          label='Open Modal'
+          color='purple'
+          onClick={() => setShowModal(true)}
+        />
+        <StyledModal
+          isDiplayed={showModal}
+          setIsDisplayed={setShowModal}
+          onClose={() => setShowModal(false)}
+        />
+      </div>
+      <div className='flex flex-col items-start justify-center gap-3'>
+        <span className='font-bold'>VII. File Upload</span>
         <FileUpload
           apiCall={() => {
             alert('File uploaded')
@@ -144,7 +159,7 @@ export default function Home() {
         />
       </div>
       <div className='flex flex-col items-start justify-center gap-3'>
-        <span className='font-bold'>VII. Table</span>
+        <span className='font-bold'>VIII. Table</span>
         <Table></Table>
       </div>
       <AddNewProductPage />
