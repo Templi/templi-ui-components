@@ -8,7 +8,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select'
 type DropdownProps = {
   label?: string
   options: any[]
-  selected: any
+  selected?: any
   setSelected: React.Dispatch<React.SetStateAction<any>>
 }
 export function Dropdown(props: DropdownProps) {

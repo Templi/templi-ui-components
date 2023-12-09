@@ -10,74 +10,62 @@ import { StyledCheckbox } from './StyledCheckbox'
 import TextLabel from './TextLabel'
 import TextTag from './TextTag'
 import { useState } from 'react'
+import TableColumnFilterHeader from './TableColumnFilterHeader'
 
 function createData(
   checked: boolean,
-  orderDate: string,
-  orderNumber: string,
+  supplierName: string,
+  phone: string,
   itemName: string,
-  supplier: string,
-  status: string,
-  shipDate: string,
-  total: number,
-  reorder: boolean,
-  tags: any[]
+  customerSince: string,
+  openBalance: number,
+  accounting: any,
+  paymentTerms: string
 ) {
   return {
     checked,
-    orderDate,
-    orderNumber,
+    supplierName,
+    phone,
     itemName,
-    supplier,
-    status,
-    shipDate,
-    total,
-    reorder,
-    tags
+    customerSince,
+    openBalance,
+    accounting,
+    paymentTerms
   }
 }
 
 const rows = [
   createData(
     true,
-    '10/24/2023',
-    '000000567',
-    '12oz Cold Cups',
     'Flamingo Paper',
-    'Processing',
-    '11/14/2023',
-    104.59,
-    true,
-    [
-      { text: 'Rush Order', textColor: 'black', bgColor: '#C6F1DC' },
-      { text: 'Shipping TBD', textColor: 'black', bgColor: '#E7796D' }
-    ]
+    '875-498-0034',
+    'Jerry',
+    '01/01/2022',
+    0.0,
+    { text: 'Good', color: 'green' },
+    'Credit Card'
   ),
   createData(
     true,
+    'Cup Store, The',
+    '201-387-6000',
+    'John',
     '01/01/2022',
-    '000000603',
-    '12oz Cold Cups',
-    'Flamingo Paper',
-    'Processing',
-    '01/15/2022',
-    73.01,
-    false,
-    [{ text: 'ON HOLD', textColor: 'white', bgColor: 'red' }]
+    8565.34,
+    { text: 'Warning', color: 'gold' },
+    'Credit Card'
   )
 ]
 
 const headers = [
   'Actions',
-  'Order Date',
-  'Order#',
-  'Item Name',
-  'Supplier',
-  'Status',
-  'Ship Date',
-  'Total',
-  'Tags',
-  'Reorder'
+  'Supplier Name',
+  'Phone',
+  'Contact',
+  'Customer Since',
+  'Open Balance',
+  'Accounting',
+  'Payment Terms'
 ]
 
 export default function BasicTable() {
@@ -98,14 +86,16 @@ export default function BasicTable() {
     setCurrentPage(0)
   }
 
-  const defaultLabelDisplayedRows = ({ from, to, count, page }) => {
+  const defaultLabelDisplayedRows = ({ to, count, page }) => {
     return `Page ${page + 1} of ${count !== -1 ? count : `more than ${to}`}`
   }
 
   return (
     <div>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+      <TableColumnFilterHeader headers={headers} />
+
+      <TableContainer component={Paper} className='w-full'>
+        <Table sx={{ minWidth: 650, width: '100%' }} aria-label='simple table'>
           <TableHead className='font-bold bg-templi-lightgray'>
             <TableRow className='font-bold'>
               {headers.map((header) => (
@@ -122,31 +112,23 @@ export default function BasicTable() {
                 <TableCell component='th' scope='row'>
                   <StyledCheckbox checked={row.checked}></StyledCheckbox>
                 </TableCell>
-                <TableCell>{row.orderDate}</TableCell>
-                <TableCell>{row.orderNumber}</TableCell>
+                <TableCell>{row.supplierName}</TableCell>
+                <TableCell>{row.phone}</TableCell>
                 <TableCell>{row.itemName}</TableCell>
-                <TableCell>{row.supplier}</TableCell>
+                <TableCell>{row.customerSince}</TableCell>
                 <TableCell component='th' scope='row'>
-                  {row.status}
-                </TableCell>
-                <TableCell>{row.shipDate}</TableCell>
-                <TableCell>{row.total}</TableCell>
-                <TableCell>
-                  <div className='flex flex-col w-full items-start justify-center gap-[4px]'>
-                    {row.tags?.map((tag) => (
-                      <TextTag text={tag.text} bgColor={tag.bgColor} />
-                    ))}
-                  </div>
+                  {`$${row.openBalance.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                  })}`}
                 </TableCell>
                 <TableCell>
-                  {row.reorder && (
-                    <TextLabel
-                      text='Replenish'
-                      color='gold'
-                      onClick={() => alert('clicked!')}
-                    />
-                  )}
+                  <TextLabel
+                    text={row?.accounting?.text}
+                    color={row?.accounting?.color}
+                  />
                 </TableCell>
+                <TableCell>{row.paymentTerms}</TableCell>
               </TableRow>
             ))}
           </TableBody>

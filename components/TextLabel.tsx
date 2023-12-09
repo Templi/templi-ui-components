@@ -14,10 +14,15 @@ type TextLabelProps = {
 }
 
 const colorMap = {
-  gold: {
+  'gold-black': {
     bg: 'bg-[#FFD630]',
     border: 'border-[black]',
     text: 'text-black'
+  },
+  gold: {
+    bg: 'bg-[#FFD630]/5',
+    border: 'border-[#FFD630]',
+    text: 'text-[#FFD630]'
   },
   pink: {
     bg: 'bg-[#FF3AD4]/5',

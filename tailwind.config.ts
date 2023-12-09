@@ -40,6 +40,7 @@ const BRAND_COLORS = {
   'concept-print-black': '#111111',
   'concept-print-lightgray': '#919191',
   'concept-print-white': '#FFFFFF',
+  'templi-bggray': '#C7C7C7',
   'templi-lightgray': '#F8F8F8',
   'templi-darkestgray': '#4F4F4F',
   'templi-gold': '#EDAB00',

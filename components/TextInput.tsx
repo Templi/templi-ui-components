@@ -1,4 +1,4 @@
-import { TextField, styled } from '@mui/material'
+import { Icon, IconButton, TextField, styled } from '@mui/material'
 import React, { ReactNode } from 'react'
 
 type TextInputAdditionalProps = {
@@ -40,32 +40,6 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
     } = props
 
     return (
-      //   <div className={containerClassName}>
-      //     {topLabel && (
-      //       <p
-      //         className={`Type-Base-Regular mb-[3px] ml-[10px]  ${
-      //           error ? 'text-red' : 'text-tight-black'
-      //         }`}
-      //       >
-      //         {topLabel} {required && <span>*</span>}
-      //       </p>
-      //     )}
-      //     <input
-      //       ref={ref}
-      //       className={`rounded-[5px] border-[1px]  bg-transparent px-[10px] py-[4px] text-xl outline-none focus:shadow-none focus:outline-0 ${
-      //         error ? 'border-red text-red' : 'border-tight-black text-black'
-      //       } ${
-      //         error ? 'placeholder:text-red' : 'placeholder:text-50-grey'
-      //       } ${className}`}
-      //       placeholder={placeholder && `${placeholder} ${required ? '*' : ''}`}
-      //       required={required}
-      //       {...otherProps}
-      //     />
-      //     {helperText && (
-      //       <p className='Type-Small-Regular mt-[3px] text-red'>{helperText}</p>
-      //     )}
-      //     {children}
-      //   </div>
       <StyledTextField
         size='small'
         label={noLabel ? '' : topLabel}

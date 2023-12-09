@@ -8,6 +8,7 @@ import FileUpload from './FileUpload'
 
 export default function AddNewProductPage() {
   const [showSlideInDrawer, setShowSlideInDrawer] = useState(false)
+  const [selectedSize, setSelectedSize] = useState()
 
   return (
     <div className='flex flex-col items-start justify-center w-full mb-[250px]'>
@@ -26,6 +27,8 @@ export default function AddNewProductPage() {
               { value: 'md', label: 'Option 1' },
               { value: 'lg', label: 'Option 2' }
             ]}
+            selected={selectedSize}
+            setSelected={setSelectedSize}
           ></Dropdown>
         </span>
         <span className='font-bold flex justify-end'>SKU</span>
