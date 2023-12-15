@@ -57,18 +57,33 @@ const rows = [
   )
 ]
 
-const headers = [
-  'Actions',
-  'Supplier Name',
-  'Phone',
-  'Contact',
-  'Customer Since',
-  'Open Balance',
-  'Accounting',
-  'Payment Terms'
+const localHeaders: TableHeader[] = [
+  { name: 'Actions', isFilterable: false, display: true },
+  { name: 'Supplier Name', isFilterable: false, display: true },
+  { name: 'Phone', isFilterable: false, display: true },
+  { name: 'Contact', isFilterable: false, display: true },
+  { name: 'Customer Since', isFilterable: false, display: true },
+  { name: 'Open Balance', isFilterable: false, display: true },
+  { name: 'Accounting', isFilterable: false, display: true },
+  { name: 'Payment Terms', isFilterable: false, display: true }
 ]
 
-export default function BasicTable() {
+export type TableHeader = {
+  name: string
+  isFilterable?: boolean
+  display?: boolean
+}
+
+type StyledTableProps = {
+  headers: TableHeader[]
+}
+
+export default function StyledTable(props: StyledTableProps) {
+  const { headers } = props
+  const [filteredHeaders, setFilteredHeaders] = useState(
+    headers ?? localHeaders
+  )
+
   const [currentPage, setCurrentPage] = useState(0)
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
@@ -92,15 +107,22 @@ export default function BasicTable() {
 
   return (
     <div>
-      <TableColumnFilterHeader headers={headers} />
+      <TableColumnFilterHeader
+        headers={filteredHeaders}
+        setHeaders={setFilteredHeaders}
+        id='suppliersTbl'
+      />
 
       <TableContainer component={Paper} className='w-full'>
         <Table sx={{ minWidth: 650, width: '100%' }} aria-label='simple table'>
           <TableHead className='font-bold bg-templi-lightgray'>
             <TableRow className='font-bold'>
-              {headers.map((header) => (
-                <TableCell className='font-bold'>{header}</TableCell>
-              ))}
+              {headers?.map(
+                (header) =>
+                  header.display && (
+                    <TableCell className='font-bold'>{header.name}</TableCell>
+                  )
+              )}
             </TableRow>
           </TableHead>
           <TableBody>

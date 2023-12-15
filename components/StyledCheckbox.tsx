@@ -12,10 +12,11 @@ const checkBoxStyles = () => ({
 
 type StyledCheckboxProps = {
   checked: boolean
+  onChange?: () => void
 }
 
 export function StyledCheckbox(props: StyledCheckboxProps) {
-  const { checked } = props
+  const { checked, onChange } = props
   return (
     <Checkbox
       checked={checked}
@@ -25,6 +26,7 @@ export function StyledCheckbox(props: StyledCheckboxProps) {
           color: 'black'
         }
       }}
+      onChange={onChange}
     ></Checkbox>
   )
 }

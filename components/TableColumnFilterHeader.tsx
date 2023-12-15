@@ -2,25 +2,41 @@ import { Divider, IconButton } from '@mui/material'
 import { Icon } from './Icon'
 import IconButtonGroup from './IconButtonGroup'
 import { HorizontalRule } from '@mui/icons-material'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { DatePicker } from '@mui/lab'
 import StyledModal from './StyledModal'
 import { StyledCheckbox } from './StyledCheckbox'
 import { TextInput } from './TextInput'
+import { TableHeader } from './Table'
 
 type TableColumnFilterHeaderProps = {
-  headers: string[]
+  headers: TableHeader[]
+  setHeaders: Dispatch<SetStateAction<TableHeader[]>>
+  id: string
 }
 
 export default function TableColumnFilterHeader(
   props: TableColumnFilterHeaderProps
 ) {
-  const { headers } = props
+  const { headers, setHeaders, id } = props
   const headerNoActions = headers.filter((item) => {
-    return item.toUpperCase() !== 'ACTIONS'
+    return item?.name?.toUpperCase() !== 'ACTIONS'
   })
   const [showViews, setShowViews] = useState(false)
   const [showColumnFilter, setShowColumnFilter] = useState(false)
+
+  const handleChange = (name: string, display: boolean) => {
+    const localHeaders = [...headers]
+    const sessionHeaders =
+      typeof window !== 'undefined' ? sessionStorage.getItem(id) : []
+    if (display) {
+    } else {
+      const newLocalHeaders = localHeaders.filter(
+        (header) => header?.name !== name
+      )
+    }
+  }
+
   return (
     <div className='w-full flex items-center justify-end mb-[4px]'>
       <IconButtonGroup
@@ -56,7 +72,7 @@ export default function TableColumnFilterHeader(
             {headerNoActions.map((header) => (
               <div className='grid grid-cols-[60fr_40fr] items-center justify-center'>
                 <TextInput />
-                <span className='ml-[12px]'>{header}</span>
+                <span className='ml-[12px]'>{header?.name}</span>
               </div>
             ))}
           </div>
@@ -72,8 +88,13 @@ export default function TableColumnFilterHeader(
           <div className='p-[20px] w-full flex flex-col items-start justify-center'>
             {headerNoActions.map((header) => (
               <div className='grid grid-cols-[20fr_80fr] items-center justify-center'>
-                <StyledCheckbox checked />
-                <span>{header}</span>
+                <StyledCheckbox
+                  checked={header?.display ?? true}
+                  onChange={() =>
+                    handleChange(header?.name, header?.display ?? false)
+                  }
+                />
+                <span>{header?.name}</span>
               </div>
             ))}
           </div>

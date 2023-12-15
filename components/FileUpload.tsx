@@ -58,7 +58,7 @@ export default function FileUpload(props: FileUploadProps) {
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
-      <label className='max-w-3/4 flex h-32 w-3/4 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-50-grey bg-5-grey px-4 transition hover:border-70-grey focus:outline-none'>
+      <label className='max-w-3/4 flex h-32 w-3/4 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-50-grey bg-5-grey px-4 transition hover:border-templi-blue hover:border-2 focus:outline-none'>
         <span className='flex items-center space-x-2'>
           <span className='text-gray-600 text-center font-medium'>
             'Drag and drop your art files, or'&nbsp;
