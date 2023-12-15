@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
-import Table from '@/components/Table'
+import Table, { TableHeader } from '@/components/Table'
 import { StyledButton } from '@/components/StyledButton'
-import { TextField } from '@mui/material'
+import { Tab, TextField } from '@mui/material'
 import { TextInput } from '@/components/TextInput'
 import SlideInDrawer from '@/components/SlideInDrawer'
 import { useState } from 'react'
@@ -12,11 +12,27 @@ import AddNewProductPage from '@/components/AddNewProductPage'
 import { Dropdown } from '@/components/Dropdown'
 import FileUpload from '@/components/FileUpload'
 import StyledModal from '@/components/StyledModal'
+import SearchTextInput from '@/components/SearchTextInput'
+import IncDecButton from '@/components/IncDecButton'
+import TableFilterHeader from '@/components/TableFilterHeader'
+import TableColumnFilterHeader from '@/components/TableColumnFilterHeader'
 
 export default function Home() {
   const [showSlideInDrawer, setShowSlideInDrawer] = useState(false)
   const [slideInDrawerSize, setSlideInDrawerSize] = useState('')
   const [showModal, setShowModal] = useState(false)
+  const [incDecVal, setIncDecVal] = useState(0)
+  const [incDecVal1, setIncDecVal1] = useState(0)
+  const localHeaders: TableHeader[] = [
+    { name: 'Actions', isFilterable: false, display: true },
+    { name: 'Supplier Name', isFilterable: false, display: true },
+    { name: 'Phone', isFilterable: false, display: true },
+    { name: 'Contact', isFilterable: false, display: true },
+    { name: 'Customer Since', isFilterable: false, display: true },
+    { name: 'Open Balance', isFilterable: false, display: true },
+    { name: 'Accounting', isFilterable: false, display: true },
+    { name: 'Payment Terms', isFilterable: false, display: true }
+  ]
 
   return (
     <main
@@ -143,6 +159,7 @@ export default function Home() {
           isDiplayed={showModal}
           setIsDisplayed={setShowModal}
           onClose={() => setShowModal(false)}
+          title='Modal'
         />
       </div>
       <div className='flex flex-col items-start justify-center gap-3'>
@@ -159,8 +176,64 @@ export default function Home() {
         />
       </div>
       <div className='flex flex-col items-start justify-center gap-3'>
-        <span className='font-bold'>VIII. Table</span>
-        <Table></Table>
+        <span className='font-bold'>VIII. Search Text Input Field</span>
+        <SearchTextInput placeHolder='Your search text here' />
+        <SearchTextInput placeHolder='This is disabled' disabled />
+      </div>
+      <div className='flex flex-col items-start justify-center'>
+        <span className='font-bold'>IX. Increment/Decrement Button</span>
+        <div className='flex items-center justify-center gap-10'>
+          <div>
+            <IncDecButton
+              placeHolder='0'
+              incrementSize={5}
+              value={incDecVal}
+              setValue={setIncDecVal}
+            />
+            <span className='text-sm'>
+              Increments of 5, doesn't allow negative values
+            </span>
+          </div>
+          <div>
+            <IncDecButton
+              placeHolder='0'
+              incrementSize={1}
+              value={incDecVal1}
+              setValue={setIncDecVal1}
+              allowNegativeVal={true}
+            />
+
+            <span className='text-sm'>
+              Increments of 1, allows negative values
+            </span>
+          </div>
+          <div>
+            <IncDecButton
+              placeHolder='0'
+              incrementSize={5}
+              value={incDecVal}
+              setValue={setIncDecVal}
+              disabled
+            />
+            <span className='text-sm'>Disabled</span>
+          </div>
+        </div>
+      </div>
+      <div className='flex flex-col items-start justify-center gap-3'>
+        <span className='font-bold'>X. Table Filter Header</span>
+        <TableFilterHeader />
+      </div>
+      <div className='flex flex-col items-start justify-center gap-3'>
+        <span className='font-bold'>XI. Table Filter Header</span>
+        <TableColumnFilterHeader
+          headers={localHeaders}
+          id='test-filter'
+          setHeaders={() => {}}
+        />
+      </div>
+      <div className='flex flex-col items-start justify-center gap-3'>
+        <span className='font-bold'>XII. Table</span>
+        <Table headers={localHeaders} key='test-table' />
       </div>
       <AddNewProductPage />
     </main>
