@@ -9,15 +9,17 @@ type DropdownProps = {
   label?: string
   options: any[]
   selected?: any
-  setSelected: React.Dispatch<React.SetStateAction<any>>
+  setSelected?: React.Dispatch<React.SetStateAction<any>>
+  disabled?: boolean
 }
 export function Dropdown(props: DropdownProps) {
-  const { options, label, setSelected, selected } = props
+  const { options, label, setSelected, selected, disabled } = props
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSelected(event.target.value)
+    if (setSelected) {
+      setSelected(event.target.value)
+    }
   }
-
   return (
     <FormControl fullWidth>
       <InputLabel id='demo-simple-select-label'>{label}</InputLabel>
@@ -30,8 +32,12 @@ export function Dropdown(props: DropdownProps) {
         sx={{
           '.MuiOutlinedInput-notchedOutline': {
             borderColor: 'black'
+          },
+          '&::placeholder': {
+            fontSize: '12px'
           }
         }}
+        disabled={disabled}
       >
         {options?.map((option) => {
           return <MenuItem value={option?.value}>{option?.label}</MenuItem>

@@ -16,6 +16,7 @@ import SearchTextInput from '@/components/SearchTextInput'
 import IncDecButton from '@/components/IncDecButton'
 import TableFilterHeader from '@/components/TableFilterHeader'
 import TableColumnFilterHeader from '@/components/TableColumnFilterHeader'
+import StyledDateRangePicker from '@/components/StyledDateRangePicker'
 
 export default function Home() {
   const [showSlideInDrawer, setShowSlideInDrawer] = useState(false)
@@ -23,6 +24,112 @@ export default function Home() {
   const [showModal, setShowModal] = useState(false)
   const [incDecVal, setIncDecVal] = useState(0)
   const [incDecVal1, setIncDecVal1] = useState(0)
+
+  function createData(
+    checked: boolean,
+    supplierName: string,
+    phone: string,
+    itemName: string,
+    customerSince: string,
+    openBalance: number,
+    tags: any[],
+    accounting: any,
+    paymentTerms: string
+  ) {
+    return {
+      checked,
+      supplierName,
+      phone,
+      itemName,
+      customerSince,
+      openBalance,
+      tags,
+      accounting,
+      paymentTerms
+    }
+  }
+
+  const rows = [
+    createData(
+      true,
+      'Flamingo Paper',
+      '875-498-0034',
+      'Jerry',
+      '01/01/2022',
+      0.0,
+      [{ text: 'Urgent', textColor: 'white', bgColor: 'red' }],
+      { text: 'Good', color: 'green' },
+      'Credit Card'
+    ),
+    createData(
+      true,
+      'Cup Store, The',
+      '201-387-6000',
+      'John',
+      '01/01/2022',
+      8565.34,
+      [
+        { text: 'New', textColor: 'white', bgColor: 'teal' },
+        { text: 'Priority', textColor: 'black', bgColor: 'orange' }
+      ],
+      { text: 'Warning', color: 'gold' },
+      'Credit Card'
+    ),
+    createData(
+      true,
+      'Greenpack USA',
+      '875-498-0034',
+      'Jerry',
+      '01/01/2022',
+      0.0,
+      [
+        {
+          text: 'Artwork Update',
+          textColor: 'black',
+          bgColor: '#F1A76E'
+        }
+      ],
+      { text: 'Good', color: 'green' },
+      'Credit Card'
+    ),
+    createData(
+      true,
+      'Cup Store, The',
+      '201-387-6000',
+      'John',
+      '01/01/2022',
+      8565.34,
+      [],
+      { text: 'Warning', color: 'gold' },
+      'Credit Card'
+    ),
+    createData(
+      true,
+      'Cup Store, The',
+      '201-387-6000',
+      'John',
+      '01/01/2022',
+      8565.34,
+      [{ text: 'Test Order', textColor: 'gold', bgColor: 'purple' }],
+      { text: 'HOLD', color: 'red' },
+      'Credit Card'
+    ),
+    createData(
+      true,
+      'Cup Store, The',
+      '201-387-6000',
+      'John',
+      '01/01/2022',
+      8565.34,
+      [
+        { text: 'New', textColor: 'white', bgColor: 'teal' },
+        { text: 'Priority', textColor: 'black', bgColor: 'orange' }
+      ],
+      { text: 'Warning', color: 'gold' },
+      'Pay By Invoice'
+    )
+  ]
+
   const localHeaders: TableHeader[] = [
     { name: 'Actions', isFilterable: false, display: true },
     { name: 'Supplier Name', isFilterable: false, display: true },
@@ -30,6 +137,7 @@ export default function Home() {
     { name: 'Contact', isFilterable: false, display: true },
     { name: 'Customer Since', isFilterable: false, display: true },
     { name: 'Open Balance', isFilterable: false, display: true },
+    { name: 'Tags', isFilterable: false, display: true },
     { name: 'Accounting', isFilterable: false, display: true },
     { name: 'Payment Terms', isFilterable: false, display: true }
   ]
@@ -101,7 +209,6 @@ export default function Home() {
       <div className='flex flex-col items-start justify-center gap-3'>
         <span className='font-bold'>IV. Text Tags</span>
         <div className='flex gap-3'>
-          {' '}
           <TextTag text='Rush Order' textColor='black' bgColor='#C6F1DC' />
           <TextTag text='Shipping TBD' textColor='black' bgColor='#E7796D' />
           <TextTag
@@ -114,7 +221,36 @@ export default function Home() {
         </div>
       </div>
       <div className='flex flex-col items-start justify-center gap-3'>
-        <span className='font-bold'>V. Slide-in Drawer</span>
+        <span className='font-bold'>V. Dropdowns</span>
+        <div className='flex gap-3'>
+          <Dropdown
+            options={[
+              { value: 'sm', label: 'Small' },
+              { value: 'md', label: 'Medium' },
+              { value: 'lg', label: 'Large' }
+            ]}
+          />
+          <Dropdown
+            options={[
+              { value: 'sm', label: 'Small' },
+              { value: 'md', label: 'Medium' },
+              { value: 'lg', label: 'Large' }
+            ]}
+            label='Label'
+          />
+          <Dropdown
+            options={[
+              { value: 'sm', label: 'Small' },
+              { value: 'md', label: 'Medium' },
+              { value: 'lg', label: 'Large' }
+            ]}
+            label='Disabled'
+            disabled
+          />
+        </div>
+      </div>
+      <div className='flex flex-col items-start justify-center gap-3'>
+        <span className='font-bold'>VI. Slide-in Drawer</span>
         <StyledButton
           label='Open Slide-in Drawer'
           color='purple'
@@ -149,7 +285,7 @@ export default function Home() {
         />
       </div>
       <div className='flex flex-col items-start justify-center gap-3'>
-        <span className='font-bold'>VI. Modal</span>
+        <span className='font-bold'>VII. Modal</span>
         <StyledButton
           label='Open Modal'
           color='purple'
@@ -163,7 +299,7 @@ export default function Home() {
         />
       </div>
       <div className='flex flex-col items-start justify-center gap-3'>
-        <span className='font-bold'>VII. File Upload</span>
+        <span className='font-bold'>VIII. File Upload</span>
         <FileUpload
           apiCall={() => {
             alert('File uploaded')
@@ -176,12 +312,14 @@ export default function Home() {
         />
       </div>
       <div className='flex flex-col items-start justify-center gap-3'>
-        <span className='font-bold'>VIII. Search Text Input Field</span>
+        <span className='font-bold'>IX. Search Text Input Field</span>
         <SearchTextInput placeHolder='Your search text here' />
         <SearchTextInput placeHolder='This is disabled' disabled />
       </div>
       <div className='flex flex-col items-start justify-center'>
-        <span className='font-bold'>IX. Increment/Decrement Button</span>
+        <span className='font-bold mb-[20px]'>
+          X. Increment/Decrement Button
+        </span>
         <div className='flex items-center justify-center gap-10'>
           <div>
             <IncDecButton
@@ -220,20 +358,24 @@ export default function Home() {
         </div>
       </div>
       <div className='flex flex-col items-start justify-center gap-3'>
-        <span className='font-bold'>X. Table Filter Header</span>
+        <span className='font-bold'>XI. Table Filter Header</span>
         <TableFilterHeader />
       </div>
       <div className='flex flex-col items-start justify-center gap-3'>
-        <span className='font-bold'>XI. Table Filter Header</span>
+        <span className='font-bold'>XII. Table Filter Header</span>
         <TableColumnFilterHeader
           headers={localHeaders}
           id='test-filter'
           setHeaders={() => {}}
         />
       </div>
+      {/* <div className='flex flex-col items-start justify-center gap-3'>
+        <span className='font-bold'>XII. Date Range Picker</span>
+        <StyledDateRangePicker />
+      </div> */}
       <div className='flex flex-col items-start justify-center gap-3'>
-        <span className='font-bold'>XII. Table</span>
-        <Table headers={localHeaders} key='test-table' />
+        <span className='font-bold'>XIII. Table</span>
+        <Table headers={localHeaders} key='test-table' data={rows} />
       </div>
       <AddNewProductPage />
     </main>
