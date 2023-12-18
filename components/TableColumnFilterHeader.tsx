@@ -7,18 +7,21 @@ import { DatePicker } from '@mui/lab'
 import StyledModal from './StyledModal'
 import { StyledCheckbox } from './StyledCheckbox'
 import { TextInput } from './TextInput'
-import { TableHeader } from './Table'
+import { TableData, TableHeader } from './Table'
 
 type TableColumnFilterHeaderProps = {
   headers: TableHeader[]
   setHeaders: Dispatch<SetStateAction<TableHeader[]>>
+  defaultHeaders: TableHeader[]
+  data: TableData[]
+  setData: Dispatch<SetStateAction<TableData[]>>
   id: string
 }
 
 export default function TableColumnFilterHeader(
   props: TableColumnFilterHeaderProps
 ) {
-  const { headers, setHeaders, id } = props
+  const { headers, setHeaders, id, defaultHeaders, data, setData } = props
   const headerNoActions = headers.filter((item) => {
     return item?.name?.toUpperCase() !== 'ACTIONS'
   })
@@ -26,14 +29,17 @@ export default function TableColumnFilterHeader(
   const [showColumnFilter, setShowColumnFilter] = useState(false)
 
   const handleChange = (name: string, display: boolean) => {
-    const localHeaders = [...headers]
+    let localHeaders = [...headers]
     const sessionHeaders =
       typeof window !== 'undefined' ? sessionStorage.getItem(id) : []
-    if (display) {
+    if (!display) {
     } else {
+      const objIndex = localHeaders.findIndex((obj) => obj.name === name)
+      localHeaders[objIndex].display = false
       const newLocalHeaders = localHeaders.filter(
         (header) => header?.name !== name
       )
+      setHeaders(newLocalHeaders)
     }
   }
 
@@ -83,13 +89,14 @@ export default function TableColumnFilterHeader(
         setIsDisplayed={setShowColumnFilter}
         onClose={() => setShowColumnFilter(false)}
         title='Columns'
-        maxWidthPercentage={50}
+        maxWidthPercentage={20}
+        size='sm'
         content={
           <div className='p-[20px] w-full flex flex-col items-start justify-center'>
             {headerNoActions.map((header) => (
               <div className='grid grid-cols-[20fr_80fr] items-center justify-center'>
                 <StyledCheckbox
-                  checked={header?.display ?? true}
+                  defaultChecked={header?.display ?? true}
                   onChange={() =>
                     handleChange(header?.name, header?.display ?? false)
                   }

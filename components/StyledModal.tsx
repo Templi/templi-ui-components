@@ -11,6 +11,7 @@ type StyledModalProps = {
   modalId?: string
   maxWidthPercentage?: number
   title?: string
+  size?: 'sm' | 'md' | 'lg'
 }
 export default function StyledModal(props: StyledModalProps) {
   const {
@@ -21,12 +22,11 @@ export default function StyledModal(props: StyledModalProps) {
     header,
     content,
     maxWidthPercentage = 70,
-    title
+    title,
+    size = 'lg'
   } = props
   const width = `w-[${maxWidthPercentage}vw]`
-  const left = `left-[${(100 - maxWidthPercentage) / 2}vw]`
-  const widthMd = `w-[${maxWidthPercentage - 20}vw]`
-  const leftMd = `left-[${(80 - maxWidthPercentage) / 2}vw]`
+  const left = `calc(left-[${(100 - maxWidthPercentage) / 2}vw])`
 
   return (
     <Modal
@@ -35,17 +35,35 @@ export default function StyledModal(props: StyledModalProps) {
       open={isDiplayed}
       onClose={onClose}
     >
-      <div
-        className={`absolute min-h-[400px] top-[5vh] ${width} ${left} rounded-md border-solid bg-pure-white md:left-[25vw] md:w-[50vw] lg:left-[25vw]`}
-      >
-        {header}
-        {!header && (
-          <SlideinModalHeader
-            title={title ?? ''}
-            onClose={onClose}
-          ></SlideinModalHeader>
+      <div>
+        {size === 'sm' && (
+          <div
+            className={`absolute min-h-[200px] top-[5vh] left-[calc(38vw)] w-[24vw] rounded-md border-solid bg-pure-white`}
+          >
+            {header}
+            {!header && (
+              <SlideinModalHeader
+                title={title ?? ''}
+                onClose={onClose}
+              ></SlideinModalHeader>
+            )}
+            {content}
+          </div>
         )}
-        {content}
+        {size === 'lg' && (
+          <div
+            className={`absolute min-h-[400px] top-[5vh] ${width} ${left} rounded-md border-solid bg-pure-white md:left-[25vw] md:w-[50vw] lg:left-[25vw]`}
+          >
+            {header}
+            {!header && (
+              <SlideinModalHeader
+                title={title ?? ''}
+                onClose={onClose}
+              ></SlideinModalHeader>
+            )}
+            {content}
+          </div>
+        )}
       </div>
     </Modal>
   )

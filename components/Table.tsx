@@ -9,8 +9,9 @@ import { Checkbox, TableFooter, TablePagination } from '@mui/material'
 import { StyledCheckbox } from './StyledCheckbox'
 import TextLabel from './TextLabel'
 import TextTag from './TextTag'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TableColumnFilterHeader from './TableColumnFilterHeader'
+import TableFilterHeader from './TableFilterHeader'
 
 function createData(
   checked: boolean,
@@ -19,6 +20,7 @@ function createData(
   itemName: string,
   customerSince: string,
   openBalance: number,
+  tags: any[],
   accounting: any,
   paymentTerms: string
 ) {
@@ -29,12 +31,13 @@ function createData(
     itemName,
     customerSince,
     openBalance,
+    tags,
     accounting,
     paymentTerms
   }
 }
 
-const rows = [
+const localData = [
   createData(
     true,
     'Flamingo Paper',
@@ -42,6 +45,7 @@ const rows = [
     'Jerry',
     '01/01/2022',
     0.0,
+    [{ text: 'Urgent', textColor: 'white', bgColor: 'red' }],
     { text: 'Good', color: 'green' },
     'Credit Card'
   ),
@@ -52,6 +56,63 @@ const rows = [
     'John',
     '01/01/2022',
     8565.34,
+    [
+      { text: 'New', textColor: 'black', bgColor: 'teal' },
+      { text: 'Priority', textColor: 'black', bgColor: 'orange' }
+    ],
+    { text: 'Warning', color: 'gold' },
+    'Credit Card'
+  ),
+  createData(
+    true,
+    'Greenpack USA',
+    '875-498-0034',
+    'Jerry',
+    '01/01/2022',
+    0.0,
+    [{ text: 'Urgent', textColor: 'white', bgColor: 'red' }],
+    { text: 'Good', color: 'green' },
+    'Credit Card'
+  ),
+  createData(
+    true,
+    'Cup Store, The',
+    '201-387-6000',
+    'John',
+    '01/01/2022',
+    8565.34,
+    [
+      { text: 'New', textColor: 'black', bgColor: 'teal' },
+      { text: 'Priority', textColor: 'black', bgColor: 'orange' }
+    ],
+    { text: 'Warning', color: 'gold' },
+    'Credit Card'
+  ),
+  createData(
+    true,
+    'Cup Store, The',
+    '201-387-6000',
+    'John',
+    '01/01/2022',
+    8565.34,
+    [
+      { text: 'New', textColor: 'black', bgColor: 'teal' },
+      { text: 'Priority', textColor: 'black', bgColor: 'orange' }
+    ],
+    { text: 'Warning', color: 'gold' },
+    'Credit Card'
+  ),
+  createData(
+    true,
+    'Cup Store, The',
+    '201-387-6000',
+    'John',
+    '01/01/2022',
+    8565.34,
+    [
+      { text: 'New', textColor: 'black', bgColor: 'teal' },
+      { text: 'Priority', textColor: 'black', bgColor: 'orange' }
+    ],
     { text: 'Warning', color: 'gold' },
     'Credit Card'
   )
@@ -64,6 +125,7 @@ const localHeaders: TableHeader[] = [
   { name: 'Contact', isFilterable: false, display: true },
   { name: 'Customer Since', isFilterable: false, display: true },
   { name: 'Open Balance', isFilterable: false, display: true },
+  { name: 'Tags', isFilterable: false, display: true },
   { name: 'Accounting', isFilterable: false, display: true },
   { name: 'Payment Terms', isFilterable: false, display: true }
 ]
@@ -74,50 +136,73 @@ export type TableHeader = {
   display?: boolean
 }
 
+export type TableData = any
+
 type StyledTableProps = {
   headers: TableHeader[]
+  data?: TableData[]
 }
 
 export default function StyledTable(props: StyledTableProps) {
-  const { headers } = props
-  const [filteredHeaders, setFilteredHeaders] = useState(
-    headers ?? localHeaders
-  )
+  const { headers, data } = props
+  const [filteredHeaders, setFilteredHeaders] = useState(headers)
+
+  const [filteredData, setFilteredData] = useState(data ?? localData)
+  const [paginatedData, setPaginatedData] = useState(data ?? localData)
 
   const [currentPage, setCurrentPage] = useState(0)
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     page: number
   ) => {
+    setPaginatedData([])
     setCurrentPage(page)
   }
 
-  const [rowsPerPage, setRowsPerPage] = useState(2)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    setPaginatedData([])
     setRowsPerPage(parseInt(event.target.value, 10))
-    setCurrentPage(0)
   }
 
   const defaultLabelDisplayedRows = ({ to, count, page }) => {
-    return `Page ${page + 1} of ${count !== -1 ? count : `more than ${to}`}`
+    const numberOfPages = Math.ceil(count / rowsPerPage)
+    return `Page ${page + 1} of ${numberOfPages > 0 ? numberOfPages : 1}
+    `
   }
+
+  useEffect(() => {
+    const localPaginatedData =
+      rowsPerPage > 0
+        ? filteredData.slice(
+            currentPage * rowsPerPage,
+            currentPage * rowsPerPage + rowsPerPage
+          )
+        : filteredData
+    setPaginatedData(localPaginatedData)
+  }, [currentPage, rowsPerPage])
 
   return (
     <div>
+      <TableFilterHeader />
+
       <TableColumnFilterHeader
         headers={filteredHeaders}
         setHeaders={setFilteredHeaders}
+        data={filteredData}
+        setData={setFilteredData}
         id='suppliersTbl'
+        defaultHeaders={headers}
       />
 
       <TableContainer component={Paper} className='w-full'>
         <Table sx={{ minWidth: 650, width: '100%' }} aria-label='simple table'>
           <TableHead className='font-bold bg-templi-lightgray'>
             <TableRow className='font-bold'>
-              {headers?.map(
+              {filteredHeaders?.map(
                 (header) =>
                   header.display && (
                     <TableCell className='font-bold'>{header.name}</TableCell>
@@ -126,7 +211,7 @@ export default function StyledTable(props: StyledTableProps) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {paginatedData?.map((row) => (
               <TableRow
                 key={row.itemName}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -145,6 +230,16 @@ export default function StyledTable(props: StyledTableProps) {
                   })}`}
                 </TableCell>
                 <TableCell>
+                  {row?.tags.map((tag) => (
+                    <TextTag
+                      text={(tag as any)?.text}
+                      textColor={(tag as any)?.textColor}
+                      bgColor={(tag as any)?.bgColor}
+                      className='mb-[4px]'
+                    />
+                  ))}
+                </TableCell>
+                <TableCell>
                   <TextLabel
                     text={row?.accounting?.text}
                     color={row?.accounting?.color}
@@ -158,9 +253,9 @@ export default function StyledTable(props: StyledTableProps) {
       </TableContainer>
       <TableFooter className='w-full flex items-center justify-end'>
         <TablePagination
-          rowsPerPageOptions={[1, 2, 10]}
+          rowsPerPageOptions={[1, 5, 10]}
           component='div'
-          count={rows.length}
+          count={filteredData.length}
           rowsPerPage={rowsPerPage}
           page={currentPage}
           onPageChange={handleChangePage}
