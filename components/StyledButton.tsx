@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { Icon } from './Icon'
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material'
@@ -14,6 +14,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     | 'red'
     | 'purple'
     | 'blank'
+    | string
   label?: string | ReactNode
   iconName?: string
   iconClassName?: string
@@ -23,15 +24,17 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 const colorMap = {
   gold: {
     bg: 'bg-[#EDAB00]/5',
-    bgHover: '#EDAB00',
+    bgHover: 'hover:bg-[#EDAB00]/30',
+    border: '#EDAB00',
     loading: 'bg-[#DCAE12]',
     text: 'text-tight-black',
     txtHover: 'hover:text-[white]',
     spinnerColor: '#EDAB00'
   },
   grey: {
-    bg: 'bg-[#EDAB00]/5',
-    bgHover: '#EDAB00',
+    bg: 'templi-darkestgray/5',
+    bgHover: 'hover:bg-[#EDAB00]/30',
+    border: 'templi-darkestgray',
     loading: 'bg-[#DCAE12]',
     text: 'text-tight-black',
     txtHover: 'hover:text-[white]',
@@ -39,7 +42,8 @@ const colorMap = {
   },
   white: {
     bg: 'bg-pure-white',
-    bgHover: 'hover:bg-pure-white-hover',
+    bgHover: 'hover:bg-pure-white',
+    border: 'black',
     loading: 'bg-pure-white-hover',
     text: 'text-tight-black',
     txtHover: 'hover:text-[white]',
@@ -47,7 +51,8 @@ const colorMap = {
   },
   blue: {
     bg: 'bg-[#2872E1]/5',
-    bgHover: '#2872E1',
+    bgHover: 'hover:bg-[#2872E1]/30',
+    border: '#2872E1',
     loading: 'bg-[#DCAE12]',
     text: 'text-tight-black',
     txtHover: 'hover:text-[white]',
@@ -55,7 +60,8 @@ const colorMap = {
   },
   green: {
     bg: 'bg-[#04A11D]/5',
-    bgHover: '#04A11D',
+    bgHover: 'hover:bg-[#04A11D]/30',
+    border: '#04A11D',
     loading: 'bg-[#DCAE12]',
     text: 'text-tight-black',
     txtHover: 'hover:text-[white]',
@@ -63,7 +69,8 @@ const colorMap = {
   },
   red: {
     bg: 'bg-[#F30F0F]/5',
-    bgHover: '#F30F0F',
+    bgHover: 'hover:bg-[#F30F0F]/30',
+    border: '#F30F0F',
     loading: 'bg-[#DCAE12]',
     text: 'text-tight-black',
     txtHover: 'hover:text-[white]',
@@ -71,7 +78,8 @@ const colorMap = {
   },
   purple: {
     bg: 'bg-[#680BC5]/5',
-    bgHover: '#680BC5',
+    bgHover: 'hover:bg-[#680BC5]/30',
+    border: '#680BC5',
     loading: 'bg-[#DCAE12]',
     text: 'text-tight-black',
     txtHover: 'hover:text-[white]',
@@ -80,6 +88,7 @@ const colorMap = {
   blank: {
     bg: '',
     bgHover: '',
+    border: '',
     loading: '',
     text: '',
     txtHover: '',
@@ -103,18 +112,24 @@ export function StyledButton(props: ButtonProps) {
   const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
     color: 'black',
     backgroundColor: colorMap[color].bg,
-    borderColor: colorMap[color].bgHover,
+    borderColor: colorMap[color].border,
     borderWidth: '2px',
     '&:hover': {
-      backgroundColor: colorMap[color].bgHover,
-      borderColor: colorMap[color].bgHover
+      borderWidth: '2px',
+      borderColor: colorMap[color].border
     }
   }))
+
+  const TailwindButton = React.forwardRef(
+    ({ children, className = '', onClick }, ref) => {
+      const buttonClasses = className('base-button', className)
+    }
+  )
 
   return (
     <ColorButton
       variant='outlined'
-      className={`min-w-[160px] w-full lg:w-auto min-h-[32px] p-0 normal-case ${colorMap[color].bg} ${colorMap[color].txtHover}`}
+      className={`min-w-[160px] w-full lg:w-auto min-h-[36px] h-[36px] p-0 normal-case ${colorMap[color].bg} ${colorMap[color].txtHover} ${colorMap[color].bgHover} ${className}`}
       disabled={disabled || loading}
       loading={loading}
       fullWidth
