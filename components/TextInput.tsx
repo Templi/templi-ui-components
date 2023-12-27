@@ -1,5 +1,5 @@
 import { Icon, IconButton, TextField, styled } from '@mui/material'
-import React, { ReactNode } from 'react'
+import React, { Dispatch, ReactNode, SetStateAction } from 'react'
 
 type TextInputAdditionalProps = {
   topLabel?: ReactNode
@@ -7,6 +7,9 @@ type TextInputAdditionalProps = {
   containerClassName?: string
   helperText?: string
   noLabel?: boolean
+  fullWidth?: boolean
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  setValue: Dispatch<SetStateAction<any>>
 }
 
 type TextInputProps = TextInputAdditionalProps &
@@ -19,6 +22,7 @@ const StyledTextField = styled(TextField)`
   & .Mui-error {
     color: red;
   }
+  height: ;
 `
 
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
@@ -35,7 +39,10 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       disabled,
       defaultValue,
       value,
+      setValue,
       noLabel = false,
+      fullWidth,
+      onKeyDown,
       ...otherProps
     } = props
 
@@ -51,6 +58,14 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
         required={required}
         defaultValue={defaultValue ?? topLabel}
         value={value}
+        onChange={(e) => setValue(e.target.value)}
+        fullWidth={fullWidth}
+        onKeyDown={onKeyDown}
+        inputProps={{
+          style: {
+            height: '20px'
+          }
+        }}
       />
     )
   }

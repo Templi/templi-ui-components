@@ -24,7 +24,7 @@ export default function Home() {
   const [showModal, setShowModal] = useState(false)
   const [incDecVal, setIncDecVal] = useState(0)
   const [incDecVal1, setIncDecVal1] = useState(0)
-
+  const [multiVal, setMultiVal] = useState<string[]>([])
   function createData(
     checked: boolean,
     supplierName: string,
@@ -229,6 +229,7 @@ export default function Home() {
               { value: 'md', label: 'Medium' },
               { value: 'lg', label: 'Large' }
             ]}
+            placeholder='test placeholder'
           />
           <Dropdown
             options={[
@@ -246,6 +247,18 @@ export default function Home() {
             ]}
             label='Disabled'
             disabled
+          />
+          <Dropdown
+            options={[
+              { value: 'sm', label: 'Small' },
+              { value: 'md', label: 'Medium' },
+              { value: 'lg', label: 'Large' }
+            ]}
+            label='Multi-select'
+            multiple={true}
+            selected={multiVal}
+            setSelected={setMultiVal}
+            placeholder='placeholder'
           />
         </div>
       </div>
