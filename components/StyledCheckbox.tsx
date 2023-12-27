@@ -20,7 +20,7 @@ export function StyledCheckbox(props: StyledCheckboxProps) {
   const { checked, onChange, defaultChecked } = props
   return (
     <Checkbox
-      // checked={checked}
+      checked={checked}
       sx={{
         color: 'red',
         [`&, &.${checkboxClasses.checked}`]: {
