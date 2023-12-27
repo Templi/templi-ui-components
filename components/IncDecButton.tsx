@@ -22,7 +22,7 @@ export default function IncDecButton(props: IncDecButtonProps) {
     value = 0,
     setValue,
     incrementSize = 1,
-    allowNegativeVal = false
+    allowNegativeVal = false // if set to true, minue icon should deactivate
   } = props
 
   const handleChange = (e: ChangeEvent) => {
@@ -72,7 +72,7 @@ export default function IncDecButton(props: IncDecButtonProps) {
             aria-label='search'
             className='pr-[8px]'
             onClick={handleIncrement}
-            disabled={disabled}
+            disabled={disabled || (allowNegativeVal && value == 1)}
           >
             <AddIcon className='text-black' />
           </IconButton>
