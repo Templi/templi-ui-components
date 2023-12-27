@@ -2,6 +2,8 @@ import { TableCell, TableRow, colors } from '@mui/material'
 import { StyledButton } from './StyledButton'
 import { Dropdown } from './Dropdown'
 import { useState } from 'react'
+import StyledModal from './StyledModal'
+import { TextInput } from './TextInput'
 
 export type TableHeaderCellObject = {
   label: string
@@ -20,6 +22,11 @@ export type TableHeaderCellObject = {
     | 'blank'
     | string
   menuOptions?: any[]
+  value: any
+  onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  renderCheckbox?: boolean
+  setValue?: React.Dispatch<React.SetStateAction<any | any[]>>
+  placeholder?: string
 }
 
 export type TableHeaderObjectProps = {
@@ -31,9 +38,19 @@ export default function TableHeaderObject(props: TableHeaderObjectProps) {
   const [selected, setSelected] = useState<string[]>([])
 
   return (
-    <TableRow className='font-bold'>
+    <TableRow className='font-bold border-b-2 border-templi-bggray'>
       {headers?.map((header) => (
         <TableCell>
+          {header.type === 'massUpdateTextField' && (
+            <TextInput
+              topLabel={header.label}
+              placeholder={header.label}
+              fullWidth
+              value={header.value}
+              onKeyDown={header?.onKeyDown}
+              setValue={header?.setValue}
+            />
+          )}
           {header.type === 'button' && (
             <StyledButton
               label={header.label}
@@ -43,14 +60,26 @@ export default function TableHeaderObject(props: TableHeaderObjectProps) {
               className='w-full min-w-full'
             ></StyledButton>
           )}
+          {header.type === 'massUpdateButton' && (
+            <>
+              <StyledButton
+                label={header.label}
+                onClick={header.action}
+                iconName={header.icon}
+                color={header.color}
+                className='w-full min-w-full'
+              />
+            </>
+          )}
           {header.type === 'filter' && (
             <Dropdown
-              label={header.label}
+              placeholder={header.placeholder}
               options={header.menuOptions ?? []}
               fullWidth
               multiple
               selected={selected}
               setSelected={setSelected}
+              renderCheckbox={header?.renderCheckbox}
             ></Dropdown>
           )}
         </TableCell>
