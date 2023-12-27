@@ -9,7 +9,7 @@ type TextInputAdditionalProps = {
   noLabel?: boolean
   fullWidth?: boolean
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void
-  setValue: Dispatch<SetStateAction<any>>
+  setValue?: Dispatch<SetStateAction<any>>
 }
 
 type TextInputProps = TextInputAdditionalProps &

@@ -22,6 +22,8 @@ export default function index() {
   const [rowCount, setRowCount] = useState(5)
   const [unitOfMeasure, setUnitOfMeasure] = useState('in')
   const [simpleSKUMassUpdate, setSimpleSKUMassUpdate] = useState('')
+  const [cupSize, setCupSize] = useState<string[]>([])
+  const [color, setColor] = useState<string[]>([])
 
   const handleSKUMassUpdate = () => {}
 
@@ -36,12 +38,13 @@ export default function index() {
       color: 'blue'
     },
     {
-      placeholder: 'Cup Size',
       type: 'filter',
+      value: cupSize,
+      setValue: setCupSize,
+      placeholder: 'Cup Size',
       action: handleApplyFilter1,
       id: 'attr1',
       icon: 'add_circle',
-      color: 'blue',
       renderCheckbox: true,
       menuOptions: [
         { value: 'val1', label: '8oz' },
@@ -50,15 +53,17 @@ export default function index() {
       ]
     },
     {
-      placeholder: 'Color',
       type: 'filter',
+      value: color,
+      setValue: setColor,
+      placeholder: 'Color',
       action: handleApplyFilter2,
       id: 'attr2',
       icon: 'add_circle',
-      color: 'blue',
+      renderCheckbox: true,
       menuOptions: [
-        { value: 'val1', label: 'Black and White', checked: true },
-        { value: 'val2', label: 'Full Color', checked: false }
+        { value: 'val1', label: 'Black and White' },
+        { value: 'val2', label: 'Full Color' }
       ]
     },
     {

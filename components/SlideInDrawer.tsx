@@ -33,8 +33,8 @@ export default function SlideInDrawer(props: SlideInDrawerProps) {
       open={open}
       classes={{
         paper: `rounded-l-[10px] max-w-[520px] min-w-[350px] ${
-          size === 'md' ? 'max-w-[60vw] min-w-[50vw]' : ''
-        } ${size === 'lg' ? 'max-w-[90vw] min-w-[80vw]' : ''}`
+          size === 'md' ? 'max-w-[60vw] w-[50vw] min-w-[50vw]' : ''
+        } ${size === 'lg' ? 'max-w-[90vw] w-[80vw] min-w-[80vw]' : ''}`
       }}
     >
       <SlideinModalHeader

@@ -8,6 +8,7 @@ import { StyledCheckbox } from './StyledCheckbox'
 import { ListItemText } from '@mui/material'
 import { TextInput } from './TextInput'
 import { join } from 'path'
+import { render } from 'react-dom'
 
 type DropdownProps = {
   label?: string
@@ -64,11 +65,14 @@ export function Dropdown(props: DropdownProps) {
   }
   return (
     <FormControl size='small' className={`${fullWidth ? 'w-full' : ''}`}>
-      <InputLabel className='text-[14px]'>{label ?? placeholder}</InputLabel>
-
+      {(!renderCheckbox || (selected?.length <= 0 && renderCheckbox)) && (
+        <InputLabel className='text-[14px]'>{label ?? placeholder}</InputLabel>
+      )}
       <Select
         value={selected ?? []}
-        label={label ?? placeholder}
+        label={
+          !renderCheckbox || selected?.length <= 0 ? label ?? placeholder : ''
+        }
         onChange={handleChange}
         size='small'
         className={`min-w-[160px] truncate ${
@@ -99,17 +103,20 @@ export function Dropdown(props: DropdownProps) {
         multiple={multiple}
         renderValue={(selected) => {
           if (selected.length === 0) {
-            return <em>Placeholder</em>
+            return <em>{placeholder ?? label}</em>
           }
 
-          return typeof selected === 'string'
-            ? options.find((i) => i.value === selected)?.label
-            : // : (selected as Array<any>)?.map(
-              //     (s, index) =>
-              //       options.find((i) => i.value === s)?.label +
-              //       `${index === (selected as any)?.length ? '' : ', '}`
-              //   )
-              ''
+          return typeof selected === 'string' ? (
+            options.find((i) => i.value === selected)?.label
+          ) : !renderCheckbox ? (
+            (selected as Array<any>)?.map(
+              (s, index) =>
+                options.find((i) => i.value === s)?.label +
+                `${index === (selected as any)?.length - 1 ? '' : ', '}`
+            )
+          ) : (
+            <span className='text-[14px] text-black/60'>{placeholder}</span>
+          )
         }}
       >
         {placeholder && (

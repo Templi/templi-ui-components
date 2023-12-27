@@ -2,7 +2,6 @@ import { TableCell, TableRow, colors } from '@mui/material'
 import { StyledButton } from './StyledButton'
 import { Dropdown } from './Dropdown'
 import { useState } from 'react'
-import StyledModal from './StyledModal'
 import { TextInput } from './TextInput'
 
 export type TableHeaderCellObject = {
@@ -77,8 +76,8 @@ export default function TableHeaderObject(props: TableHeaderObjectProps) {
               options={header.menuOptions ?? []}
               fullWidth
               multiple
-              selected={selected}
-              setSelected={setSelected}
+              selected={header.value}
+              setSelected={header.setValue}
               renderCheckbox={header?.renderCheckbox}
             ></Dropdown>
           )}
