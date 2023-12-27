@@ -3,6 +3,7 @@ import { StyledButton } from './StyledButton'
 import { Dropdown } from './Dropdown'
 import { useState } from 'react'
 import { TextInput } from './TextInput'
+import MassUpdateTextInput from './MassUpdateTextInput'
 
 export type TableHeaderCellObject = {
   label: string
@@ -41,6 +42,15 @@ export default function TableHeaderObject(props: TableHeaderObjectProps) {
       {headers?.map((header) => (
         <TableCell>
           {header.type === 'massUpdateTextField' && (
+            <MassUpdateTextInput
+              placeholder={header.label}
+              // value={header.value}
+              // onKeyDown={header?.onKeyDown}
+              // setValue={header?.setValue}
+              className='p-0 m-0'
+            />
+          )}
+          {header.type === 'disabledMassUpdateTextField' && (
             <TextInput
               topLabel={header.label}
               placeholder={header.label}
@@ -48,6 +58,8 @@ export default function TableHeaderObject(props: TableHeaderObjectProps) {
               value={header.value}
               onKeyDown={header?.onKeyDown}
               setValue={header?.setValue}
+              className='p-0 m-0 w-[250px] flex items-center justify-center'
+              disabled
             />
           )}
           {header.type === 'button' && (

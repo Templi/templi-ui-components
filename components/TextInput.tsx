@@ -22,7 +22,6 @@ const StyledTextField = styled(TextField)`
   & .Mui-error {
     color: red;
   }
-  height: ;
 `
 
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(

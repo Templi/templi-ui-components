@@ -21,7 +21,7 @@ export default function index() {
   const handleApplyFilter2 = () => {}
   const [rowCount, setRowCount] = useState(5)
   const [unitOfMeasure, setUnitOfMeasure] = useState('in')
-  const [simpleSKUMassUpdate, setSimpleSKUMassUpdate] = useState('')
+  const [simpleSKUMassUpdate, setSimpleSKUMassUpdate] = useState('SKUTST056')
   const [cupSize, setCupSize] = useState<string[]>([])
   const [color, setColor] = useState<string[]>([])
 
@@ -68,7 +68,7 @@ export default function index() {
     },
     {
       label: 'Simple SKU',
-      type: 'massUpdateTextField',
+      type: 'disabledMassUpdateTextField',
       id: 'simpleSKU',
       value: simpleSKUMassUpdate,
       setValue: setSimpleSKUMassUpdate,
@@ -76,7 +76,7 @@ export default function index() {
     },
     {
       label: 'Supplier SKU',
-      type: 'button',
+      type: 'massUpdateTextField',
       action: handleApplyImageToAll,
       id: 'images',
       color: 'green'
@@ -111,6 +111,7 @@ export default function index() {
         />
         <StyledButton label='Add Break' color='blue' iconName='add_circle' />
         <StyledButton label='Add List' color='blue' iconName='add_circle' />
+        <StyledButton label='Add Template' color='blue' iconName='add_circle' />
       </div>
       <TableContainer component={Paper} className='w-full'>
         <Table sx={{ minWidth: 650, width: '100%' }} aria-label='simple table'>
